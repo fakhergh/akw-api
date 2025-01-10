@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import 'mongoose-paginate-v2';
 const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
@@ -9,12 +10,14 @@ import { createExpressServer, getMetadataArgsStorage } from 'routing-controllers
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
 
+import { authorizationChecker } from '@/authentication/authorization-checker';
 import { Config } from '@/config';
 import { connectDatabase } from '@/database';
 
 const port = Config.app.port;
 
 const server = createExpressServer({
+    authorizationChecker,
     controllers: [path.join(__dirname + '/controllers/*.ts')],
     middlewares: [path.join(__dirname + '/middlewares/*.ts')],
     development: process.env.NODE_ENV === 'development',
