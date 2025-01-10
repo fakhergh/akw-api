@@ -1,5 +1,4 @@
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
-import { compare } from 'bcryptjs';
 import { IsString } from 'class-validator';
 
 import { BaseUser } from '@/models/common/base-user.model';
@@ -12,11 +11,5 @@ export class Admin extends BaseUser {
 }
 
 const AdminModel = getModelForClass(Admin);
-
-const AdminSchema = AdminModel.schema;
-
-AdminSchema.methods.isValidPassword = function (password: string) {
-    return compare(password, this.password);
-};
 
 export default AdminModel as typeof AdminModel;

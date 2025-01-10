@@ -1,4 +1,5 @@
 import { prop } from '@typegoose/typegoose';
+import { compare } from 'bcryptjs';
 import { IsString } from 'class-validator';
 
 import { BaseModel } from '@/models/common/base.model';
@@ -11,8 +12,7 @@ export class BaseUser extends BaseModel {
     @prop()
     password?: string;
 
-    @prop({ default: false })
-    deleted?: boolean;
-
-    isValidPassword!: (password: string) => Promise<boolean>;
+    isValidPassword(password: string) {
+        return compare(password, this.password!);
+    }
 }

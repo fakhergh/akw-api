@@ -24,4 +24,12 @@ export class UserService {
     createUser(data: CreateUserData) {
         return UserModel.create(data);
     }
+
+    getPaginatedUsers(page = 1, limit = 10) {
+        return UserModel.paginate({}, { page, limit, sort: { createdAt: -1 } });
+    }
+
+    getTotalUsersCount() {
+        return UserModel.countDocuments();
+    }
 }
