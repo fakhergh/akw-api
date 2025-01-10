@@ -1,0 +1,2 @@
+npm run static:check
+npm test
