@@ -39,7 +39,7 @@ export const spec = routingControllersToSpec(
     storage,
     {},
     {
-        info: { title: 'Next Application API', version: '1.0.0' },
+        info: { title: 'AKW Application API', version: '1.0.0' },
         components: {
             securitySchemes: {
                 bearerAuth: {
