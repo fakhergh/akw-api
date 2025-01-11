@@ -10,13 +10,18 @@ import { JsonWebToken, Payload } from '@/utils/jwt.util';
 
 export const authorizationChecker: AuthorizationChecker = async function authenticationMiddleware(
     action: Action,
+    roles: RoleType[],
 ) {
     try {
         const token: string = action.request.headers['authorization'];
 
-        if (!token) return false;
+        // block request if token not passed
+        if (!token) throw new UnauthorizedError('Unauthorized');
 
         const payload: Payload = JsonWebToken.verifyJwt(token.split('Bearer ')[1]);
+
+        // block request if required role is missing
+        if (roles?.length > 0 && !roles.includes(payload.role)) return false;
 
         const filter: FilterQuery<BaseUser> = { _id: payload._id };
 
@@ -31,6 +36,7 @@ export const authorizationChecker: AuthorizationChecker = async function authent
                 break;
         }
 
+        action.request.user = user;
         return user !== null;
     } catch (error) {
         console.log(error);
