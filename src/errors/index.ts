@@ -6,3 +6,9 @@ export class ConflictError extends HttpError {
         super(StatusCodes.CONFLICT, message);
     }
 }
+
+export class UnprocessableEntityError extends HttpError {
+    constructor(message: string) {
+        super(StatusCodes.UNPROCESSABLE_ENTITY, message);
+    }
+}
