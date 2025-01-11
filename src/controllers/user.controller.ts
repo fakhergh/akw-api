@@ -3,8 +3,8 @@ import { ResponseSchema } from 'routing-controllers-openapi';
 import { Container } from 'typedi';
 
 import { PaginationQueryParams } from '@/dtos/common/pagination.dto';
+import { PaginatedUserResponse, TotalUserCountResponse } from '@/dtos/user.dto';
 import { UserService } from '@/services/user.service';
-import { PaginatedUserResponse, TotalUserCountResponse } from '@/types/user.type';
 
 @JsonController('/users')
 export class UserController {

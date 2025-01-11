@@ -1,7 +1,7 @@
 import { JwtPayload, sign, verify } from 'jsonwebtoken';
 
 import { Config } from '@/config';
-import { RoleType } from '@/types/role.type';
+import { RoleType } from '@/types/auth.type';
 
 const accessTokenCredentials = Config.jwt.access;
 const refreshTokenCredentials = Config.jwt.refresh;

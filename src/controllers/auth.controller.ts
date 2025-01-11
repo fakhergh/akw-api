@@ -1,6 +1,8 @@
+import { StatusCodes } from 'http-status-codes';
 import {
     Body,
     HeaderParam,
+    HttpCode,
     JsonController,
     NotFoundError,
     Post,
@@ -9,12 +11,17 @@ import {
 import { ResponseSchema } from 'routing-controllers-openapi';
 import { Container } from 'typedi';
 
-import { LoginDto, UserRegisterDto } from '@/dtos/auth.dto';
+import {
+    LoginDto,
+    LoginResponse,
+    RefreshTokenResponse,
+    UserRegisterDto,
+    UserRegisterResponse,
+} from '@/dtos/auth.dto';
 import { ConflictError } from '@/errors';
 import { AdminService } from '@/services/admin.service';
 import { UserService } from '@/services/user.service';
-import { LoginResponse, RefreshTokenResponse, UserRegisterResponse } from '@/types/auth.type';
-import { RoleType } from '@/types/role.type';
+import { RoleType } from '@/types/auth.type';
 import { JsonWebToken, Payload } from '@/utils/jwt.util';
 
 @JsonController('/auth')
@@ -65,6 +72,7 @@ export class AuthController {
 
     // User services
 
+    @HttpCode(StatusCodes.CREATED)
     @Post('/user/register')
     @ResponseSchema(UserRegisterResponse)
     async userRegister(@Body() data: UserRegisterDto) {

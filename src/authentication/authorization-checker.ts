@@ -4,7 +4,8 @@ import { AuthorizationChecker } from 'routing-controllers/types/AuthorizationChe
 
 import AdminModel from '@/models/admin.model';
 import { BaseUser } from '@/models/common/base-user.model';
-import { RoleType } from '@/types/role.type';
+import UserModel from '@/models/user.model';
+import { RoleType } from '@/types/auth.type';
 import { JsonWebToken, Payload } from '@/utils/jwt.util';
 
 export const authorizationChecker: AuthorizationChecker = async function authenticationMiddleware(
@@ -26,7 +27,7 @@ export const authorizationChecker: AuthorizationChecker = async function authent
                 user = await AdminModel.findOne(filter);
                 break;
             case RoleType.USER:
-                user = await AdminModel.findOne(filter);
+                user = await UserModel.findOne(filter);
                 break;
         }
 
