@@ -4,13 +4,14 @@ import 'mongoose-paginate-v2';
 const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
-import * as express from 'express';
+import express from 'express';
 import * as path from 'path';
 import { createExpressServer, getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
 
 import { authorizationChecker } from '@/authentication/authorization-checker';
+import { currentUserChecker } from '@/authentication/current-user-checker';
 import { Config } from '@/config';
 import { connectDatabase } from '@/database';
 
@@ -18,6 +19,7 @@ const port = Config.app.port;
 
 const server = createExpressServer({
     authorizationChecker,
+    currentUserChecker,
     controllers: [path.join(__dirname + '/controllers/*.ts')],
     middlewares: [path.join(__dirname + '/middlewares/*.ts')],
     development: process.env.NODE_ENV === 'development',
@@ -57,6 +59,7 @@ export const spec = routingControllersToSpec(
     },
 );
 
+server.use(Config.upload.documents.endpoint, express.static(Config.upload.documents.directory));
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
 server.use('/docs.json', (_: express.Request, res: express.Response) => res.json(spec));
 
