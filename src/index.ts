@@ -4,7 +4,7 @@ import 'mongoose-paginate-v2';
 const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
-import express from 'express';
+import { Request, Response } from 'express';
 import * as path from 'path';
 import { createExpressServer, getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
@@ -59,9 +59,8 @@ export const spec = routingControllersToSpec(
     },
 );
 
-server.use(Config.upload.documents.endpoint, express.static(Config.upload.documents.directory));
 server.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
-server.use('/docs.json', (_: express.Request, res: express.Response) => res.json(spec));
+server.use('/docs.json', (_: Request, res: Response) => res.json(spec));
 
 server.listen(port, async () => {
     console.log('Server is running at port: http://localhost:%s', port);

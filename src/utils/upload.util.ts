@@ -5,7 +5,7 @@ import { BadRequestError, UploadedFile } from 'routing-controllers';
 
 import { Config } from '@/config';
 
-const uploadDirectory = Config.upload.documents.directory;
+const uploadDirectory = `./${Config.upload.documents.directory}`;
 
 const storage = diskStorage({
     destination: async (_, __, cb) => {
@@ -17,7 +17,8 @@ const storage = diskStorage({
         }
     },
     filename: (_, file, cb) => {
-        cb(null, `${Date.now()}-${file.originalname}`);
+        const extension = path.extname(file.originalname).toLowerCase();
+        cb(null, `${Date.now()}${extension}`);
     },
 });
 

@@ -25,7 +25,7 @@ export const Config = {
     upload: {
         documents: {
             directory: './uploads/documents',
-            endpoint: './media/documents',
+            endpoint: '/media/documents',
         },
     },
 };
