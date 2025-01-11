@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, PaginateOptions } from 'mongoose';
 import { Service } from 'typedi';
 
 import UserModel, { User } from '@/models/user.model';
@@ -26,7 +26,10 @@ export class UserService {
     }
 
     getPaginatedUsers(page = 1, limit = 10) {
-        return UserModel.paginate({}, { page, limit, sort: { createdAt: -1 } });
+        const filter = {};
+        const paginateOptions: PaginateOptions = { page, limit, sort: { createdAt: -1 } };
+
+        return UserModel.paginate(filter, paginateOptions);
     }
 
     getTotalUsersCount() {

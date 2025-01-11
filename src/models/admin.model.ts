@@ -1,9 +1,15 @@
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { IsString } from 'class-validator';
 
+import { Config } from '@/config';
 import { BaseUser } from '@/models/common/base-user.model';
 
-@modelOptions({ schemaOptions: { collection: 'admins', timestamps: true } })
+@modelOptions({
+    schemaOptions: {
+        collection: Config.database.collections.admin,
+        timestamps: true,
+    },
+})
 export class Admin extends BaseUser {
     @IsString()
     @prop({ required: true, unique: true })
