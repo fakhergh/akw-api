@@ -1,6 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import {
+    Authorized,
     Body,
+    CurrentUser,
+    Get,
     HeaderParam,
     HttpCode,
     JsonController,
@@ -19,6 +22,8 @@ import {
     UserRegisterResponse,
 } from '@/dtos/auth.dto';
 import { ConflictError } from '@/errors';
+import { Admin } from '@/models/admin.model';
+import { User } from '@/models/user.model';
 import { AdminService } from '@/services/admin.service';
 import { UserService } from '@/services/user.service';
 import { RoleType } from '@/types/auth.type';
@@ -68,6 +73,13 @@ export class AuthController {
         const refreshToken = JsonWebToken.signJwtRefresh(payload);
 
         return { accessToken, refreshToken };
+    }
+
+    @Get('/admin/me')
+    @Authorized(RoleType.ADMIN)
+    @ResponseSchema(Admin)
+    adminProfile(@CurrentUser() admin: Admin) {
+        return admin;
     }
 
     // User services
@@ -128,5 +140,12 @@ export class AuthController {
         const refreshToken = JsonWebToken.signJwtRefresh(payload);
 
         return { accessToken, refreshToken };
+    }
+
+    @Get('/user/me')
+    @Authorized(RoleType.USER)
+    @ResponseSchema(User)
+    userProfile(@CurrentUser() user: User) {
+        return user;
     }
 }
