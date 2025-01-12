@@ -13,7 +13,7 @@ import {
     QueryParam,
     QueryParams,
 } from 'routing-controllers';
-import { ResponseSchema } from 'routing-controllers-openapi';
+import { OpenAPI, ResponseSchema } from 'routing-controllers-openapi';
 import { Container } from 'typedi';
 
 import { PaginationQueryParams } from '@/dtos/common/pagination.dto';
@@ -27,7 +27,7 @@ import { User } from '@/models/user.model';
 import { CreateKycSubmissionData, KycSubmissionService } from '@/services/kyc-submission.service';
 import { RoleType } from '@/types/auth.type';
 import { KycSubmissionStatus } from '@/types/kyc-submission.type';
-import { FileUpload } from '@/utils/upload.util';
+import { FilesUpload } from '@/utils/upload.util';
 
 @JsonController('/kyc-submissions')
 export class KycSubmissionController {
@@ -59,9 +59,31 @@ export class KycSubmissionController {
 
     @Post()
     @Authorized(RoleType.USER)
+    @OpenAPI({
+        requestBody: {
+            required: true,
+            content: {
+                'multipart/form-data': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            documents: {
+                                type: 'array',
+                                items: {
+                                    type: 'string',
+                                    format: 'binary',
+                                },
+                                description: 'The documents to upload',
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    })
     @ResponseSchema(KycSubmission)
     async createKycSubmission(
-        @FileUpload('documents')
+        @FilesUpload('documents')
         uploads: Express.Multer.File | Array<Express.Multer.File>,
         @CurrentUser() user: User,
     ) {

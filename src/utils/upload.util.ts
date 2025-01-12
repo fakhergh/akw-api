@@ -1,7 +1,8 @@
 import * as fs from 'fs/promises';
 import { diskStorage, Options } from 'multer';
 import path from 'path';
-import { BadRequestError, UploadedFile } from 'routing-controllers';
+import { BadRequestError, UploadedFile, UploadedFiles } from 'routing-controllers';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Config } from '@/config';
 
@@ -18,7 +19,7 @@ const storage = diskStorage({
     },
     filename: (_, file, cb) => {
         const extension = path.extname(file.originalname).toLowerCase();
-        cb(null, `${Date.now()}${extension}`);
+        cb(null, `${uuidv4()}${extension}`);
     },
 });
 
@@ -43,4 +44,8 @@ const multerOptions: Options = {
 
 export function FileUpload(name: string) {
     return UploadedFile(name, { options: multerOptions });
+}
+
+export function FilesUpload(name: string) {
+    return UploadedFiles(name, { options: multerOptions });
 }
