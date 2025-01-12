@@ -77,6 +77,11 @@ export class KycSubmissionController {
                             },
                         },
                     },
+                    encoding: {
+                        documents: {
+                            contentType: 'image/png, image/jpeg, image/jpg',
+                        },
+                    },
                 },
             },
         },
