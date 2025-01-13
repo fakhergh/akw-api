@@ -5,7 +5,6 @@ const { defaultMetadataStorage } = require('class-transformer/cjs/storage');
 
 import { validationMetadatasToSchemas } from 'class-validator-jsonschema';
 import { Request, Response } from 'express';
-import * as path from 'path';
 import { createExpressServer, getMetadataArgsStorage } from 'routing-controllers';
 import { routingControllersToSpec } from 'routing-controllers-openapi';
 import swaggerUi from 'swagger-ui-express';
@@ -13,15 +12,35 @@ import swaggerUi from 'swagger-ui-express';
 import { authorizationChecker } from '@/authentication/authorization-checker';
 import { currentUserChecker } from '@/authentication/current-user-checker';
 import { Config } from '@/config';
+import { AuthController } from '@/controllers/auth.controller';
+import { HealthController } from '@/controllers/health.controller';
+import { KycSubmissionController } from '@/controllers/kyc-submission.controller';
+import { UserController } from '@/controllers/user.controller';
 import { connectDatabase } from '@/database';
+import { CompressionMiddleware } from '@/middlewares/compression.middleware';
+import { GlobalErrorMiddleware } from '@/middlewares/global-error.middleware';
+import { HelmetMiddleware } from '@/middlewares/helmet.middleware';
+import { LoggerMiddleware } from '@/middlewares/logger.middleware';
+import { NotFoundErrorMiddleware } from '@/middlewares/not-found.middleware';
+import { ServeStaticMiddleware } from '@/middlewares/serve-static.middleware';
 
 const port = Config.app.port;
+
+const controllers = [AuthController, UserController, KycSubmissionController, HealthController];
+const middlewares = [
+    LoggerMiddleware,
+    HelmetMiddleware,
+    CompressionMiddleware,
+    ServeStaticMiddleware,
+    NotFoundErrorMiddleware,
+    GlobalErrorMiddleware,
+];
 
 const server = createExpressServer({
     authorizationChecker,
     currentUserChecker,
-    controllers: [path.join(__dirname + '/controllers/*.ts')],
-    middlewares: [path.join(__dirname + '/middlewares/*.ts')],
+    controllers,
+    middlewares,
     development: process.env.NODE_ENV === 'development',
     classTransformer: false,
     validation: {
