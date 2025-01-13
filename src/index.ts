@@ -23,7 +23,7 @@ const server = createExpressServer({
     controllers: [path.join(__dirname + '/controllers/*.ts')],
     middlewares: [path.join(__dirname + '/middlewares/*.ts')],
     development: process.env.NODE_ENV === 'development',
-    classTransformer: true,
+    classTransformer: false,
     validation: {
         skipNullProperties: false,
         skipUndefinedProperties: false,

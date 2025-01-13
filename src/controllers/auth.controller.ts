@@ -60,13 +60,13 @@ export class AuthController {
     @ResponseSchema(RefreshTokenResponse)
     @Post('/admin/refresh-token')
     async adminRefreshToken(@HeaderParam('refresh-token') requestRefreshToken: string) {
-        const decodedPayload: any = JsonWebToken.verifyJwtRefresh(requestRefreshToken);
+        const decodedPayload: Payload = JsonWebToken.verifyJwtRefresh(requestRefreshToken);
 
         const admin = await this.adminService.getAdminById(decodedPayload._id);
 
         if (!admin) throw new UnauthorizedError('Admin not found');
 
-        const payload = { _id: decodedPayload._id };
+        const payload = { _id: decodedPayload._id, role: RoleType.ADMIN };
 
         const accessToken = JsonWebToken.signJwt(payload);
 
@@ -115,7 +115,7 @@ export class AuthController {
 
         if (!isValidPassword) throw new NotFoundError('User not found');
 
-        const payload: Payload = { _id: user._id.toString(), role: RoleType.ADMIN };
+        const payload: Payload = { _id: user._id.toString(), role: RoleType.USER };
 
         const accessToken = JsonWebToken.signJwt(payload);
 
@@ -127,13 +127,13 @@ export class AuthController {
     @ResponseSchema(RefreshTokenResponse)
     @Post('/user/refresh-token')
     async userRefreshToken(@HeaderParam('refresh-token') requestRefreshToken: string) {
-        const decodedPayload: any = JsonWebToken.verifyJwtRefresh(requestRefreshToken);
+        const decodedPayload: Payload = JsonWebToken.verifyJwtRefresh(requestRefreshToken);
 
         const user = await this.userService.getUserById(decodedPayload._id);
 
         if (!user) throw new UnauthorizedError('User not found');
 
-        const payload = { _id: decodedPayload._id };
+        const payload = { _id: decodedPayload._id, role: RoleType.USER };
 
         const accessToken = JsonWebToken.signJwt(payload);
 

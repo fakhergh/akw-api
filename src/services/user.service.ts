@@ -1,7 +1,8 @@
-import { FilterQuery, PaginateOptions } from 'mongoose';
+import { FilterQuery, PaginateOptions, Types } from 'mongoose';
 import { Service } from 'typedi';
 
 import UserModel, { User } from '@/models/user.model';
+import { KycSubmissionStatus } from '@/types/kyc-submission.type';
 
 export interface CreateUserData {
     firstName: string;
@@ -12,7 +13,7 @@ export interface CreateUserData {
 
 @Service()
 export class UserService {
-    getUserById(id: string) {
+    getUserById(id: Types.ObjectId | string) {
         return UserModel.findById(id);
     }
 
@@ -34,5 +35,12 @@ export class UserService {
 
     getTotalUsersCount() {
         return UserModel.countDocuments();
+    }
+
+    updateUserKycStatus(id: Types.ObjectId | string, kycStatus: KycSubmissionStatus) {
+        const filter = { _id: id };
+        const update = { $set: { kycStatus } };
+        const options = { new: true };
+        return UserModel.findOneAndUpdate(filter, update, options);
     }
 }

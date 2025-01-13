@@ -1,12 +1,18 @@
-import { FilterQuery, PaginateOptions, Types } from 'mongoose';
+import { FilterQuery, PaginateOptions, SortOrder, Types } from 'mongoose';
 import { Service } from 'typedi';
 
 import KycSubmissionModel, { KycSubmission } from '@/models/kyc-submission.model';
-import { KycSubmissionStatus } from '@/types/kyc-submission.type';
+import { Gender, KycSubmissionStatus } from '@/types/kyc-submission.type';
 
 export interface CreateKycSubmissionData {
     userId: Types.ObjectId | string;
-    documents: Array<{ path: string; mimetype: string; size: number }>;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    address: string;
+    gender: Gender;
+    documents: Array<{ path: string; mimetype: string; size: number; filename: string }>;
 }
 
 @Service()
@@ -31,18 +37,22 @@ export class KycSubmissionService {
         return KycSubmissionModel.countDocuments(filter);
     }
 
-    getSubmissionsByUserId(id: number) {
-        const filter = { _id: id };
-        const sortOptions = { createdAt: -1 };
+    async getSubmissionsByUserId(userId: Types.ObjectId | string) {
+        const filter = { userId };
+        const sortOptions: { [key: string]: SortOrder } = { createdAt: -1 };
 
-        return KycSubmissionModel.find(filter, sortOptions);
+        const submission = await KycSubmissionModel.findOne(filter).sort(sortOptions);
+
+        if (submission) submission.populate('user');
+
+        return submission;
     }
 
-    async getLastSubmissionByUserId(id: Types.ObjectId | string) {
+    async getLastSubmissionById(id: Types.ObjectId | string) {
         const filter = { _id: id };
-        const sortOptions = { createdAt: -1 };
+        const sortOptions: { [key: string]: SortOrder } = { createdAt: -1 };
 
-        const submission = await KycSubmissionModel.findOne(filter, sortOptions);
+        const submission = await KycSubmissionModel.findOne(filter).sort(sortOptions);
 
         if (submission) submission.populate('user');
 
