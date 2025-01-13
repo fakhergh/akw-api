@@ -12,7 +12,11 @@
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
         "circular:check": "npm run build && madge --circular dist",
-        "circular:generate": "npm run build && madge --image circular.png dist"
+        "circular:generate": "npm run build && madge --image circular.png dist",
+        "db:add": "migrate-mongo create",
+        "db:up": "migrate-mongo up",
+        "db:down": "migrate-mongo down",
+        "db:status": "migrate-mongo status"
     },
     "keywords": [],
     "author": "",
@@ -33,6 +37,7 @@
         "http-status-codes": "^2.3.0",
         "husky": "^9.1.7",
         "jsonwebtoken": "^9.0.2",
+        "migrate-mongo": "^11.0.0",
         "mongoose": "^8.9.4",
         "mongoose-paginate-v2": "^1.9.0",
         "morgan": "^1.10.0",
