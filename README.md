@@ -1,4 +1,4 @@
-# Compliance Workflow API
+# Overview
 
 A REST API server for managing user authentication, user management, and KYC (Know Your Customer) user submissions. Built using Express.js, Typegoose, MongoDB, and routing-controllers with auto-generated Swagger documentation for seamless integration and testing.
 
@@ -164,6 +164,15 @@ Here are some of the available npm commands to manage the project:
     npm run circular:generate
     ```
 
+## Credentials and Testing
+
+For testing administrative functionality, you can use the following **admin credentials** to log into the system and access admin-related features:
+
+- **Email**: `admin@gmail.com`
+- **Password**: `0000`
+
+These credentials can be used to access the Swagger UI documentation and other API endpoints that require administrative access. Ensure that these credentials are used in a secure testing environment, especially for sensitive operations.
+
 ## Project File Structure
 
 ```plaintext
@@ -237,4 +246,10 @@ Here are some of the available npm commands to manage the project:
 
 Swagger UI for your API documentation is available at `/docs`. The documentation is automatically generated based on the controller annotations.
 
-To access it, ensure your server is running and visit:
+To access it, ensure your server is running and visit: [api docs](https://akw-api-0ff33a01ae6c.herokuapp.com/docs)
+
+## Deployment
+
+This project is **auto-deployed** to Heroku. Any changes pushed to the main branch are automatically deployed to the live environment.
+
+You can access the live application here: [https://akw-api-0ff33a01ae6c.herokuapp.com/docs](https://akw-api-0ff33a01ae6c.herokuapp.com/docs)

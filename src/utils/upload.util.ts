@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { Config } from '@/config';
 
-const uploadDirectory = `./${Config.upload.documents.directory}`;
+const uploadDirectory = path.join(__dirname, '../../', Config.upload.documents.directory);
 
 const storage = diskStorage({
     destination: async (_, __, cb) => {
