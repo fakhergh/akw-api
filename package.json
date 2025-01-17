@@ -11,6 +11,9 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
+        "test:e2e": "jest --config jest.e2e.config.js",
+        "test:e2e:watch": "jest --config jest.e2e.config.js --watch",
+        "test:e2e:cov": "jest --config jest.e2e.config.js --coverage",
         "circular:check": "npm run build && madge --circular dist",
         "circular:generate": "npm run build && madge --image circular.png dist",
         "db:add": "migrate-mongo create",
@@ -63,6 +66,7 @@
         "@types/jsonwebtoken": "^9.0.7",
         "@types/morgan": "^1.9.9",
         "@types/multer": "^1.4.3",
+        "@types/supertest": "^6.0.2",
         "@types/swagger-ui-express": "^4.1.7",
         "@typescript-eslint/eslint-plugin": "^8.19.1",
         "@typescript-eslint/parser": "^8.19.1",
@@ -74,6 +78,7 @@
         "madge": "^8.0.0",
         "nodemon": "^3.1.9",
         "prettier": "^3.4.2",
+        "supertest": "^7.0.0",
         "ts-jest": "^29.2.5"
     }
 }

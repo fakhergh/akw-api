@@ -4,3 +4,5 @@ dist
 uploads
 .env
 .env*
+coverage
+coverage-e2e

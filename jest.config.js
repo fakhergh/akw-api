@@ -1,7 +1,7 @@
 module.exports = {
     moduleFileExtensions: ['js', 'json', 'ts'],
     rootDir: '.',
-    testRegex: '.*\\.spec\\.ts$',
+    testRegex: '\\.spec\\.ts$',
     transform: {
         '^.+\\.(t|j)s$': 'ts-jest',
     },
@@ -11,4 +11,6 @@ module.exports = {
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
     },
+    testPathIgnorePatterns: ['\\.e2e\\.spec\\.(js|ts)$'],
+    coveragePathIgnorePatterns: ['\\.e2e\\.spec\\.(js|ts)$'],
 };
