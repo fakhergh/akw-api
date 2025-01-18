@@ -85,5 +85,5 @@ export class CreateKycSubmissionDto {
 
     gender!: Gender;
 
-    uploads!: Express.Multer.File | Array<Express.Multer.File>;
+    uploads?: Express.Multer.File | Array<Express.Multer.File>;
 }

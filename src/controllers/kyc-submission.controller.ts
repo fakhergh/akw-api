@@ -67,6 +67,7 @@ export class KycSubmissionController {
     @Authorized(RoleType.USER)
     @OpenAPI(CreateKycSubmissionOpenApiParams)
     @ResponseSchema(KycSubmission)
+    @HttpCode(StatusCodes.CREATED)
     async createKycSubmission(
         @FilesUpload('documents') uploads: Express.Multer.File | Array<Express.Multer.File>,
         @CurrentUser() user: User,

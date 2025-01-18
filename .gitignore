@@ -6,3 +6,4 @@ uploads
 .env*
 coverage
 coverage-e2e
+__tests__/test-document.png

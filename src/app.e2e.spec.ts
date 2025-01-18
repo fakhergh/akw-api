@@ -4,8 +4,8 @@ import request from 'supertest';
 import { app } from '@/app';
 
 describe('App', () => {
-    it('Should return 200 on /health', async () => {
-        const response = await request(app).get('/health');
-        expect(response.status).toBe(StatusCodes.OK);
+    it('Should return 404 [GET] on /', async () => {
+        const response = await request(app).get('/');
+        expect(response.status).toBe(StatusCodes.NOT_FOUND);
     });
 });
